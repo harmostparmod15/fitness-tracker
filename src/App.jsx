@@ -124,11 +124,6 @@ function App() {
             Total Duration: {totalDuration} min
           </div>
         </div>
-
-        {/* Footer */}
-        <footer className="mt-8 text-gray-400 text-sm text-center">
-          Developed by Your Name | Version 1.3
-        </footer>
       </div>
     </div>
   );
