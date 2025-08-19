@@ -4,6 +4,7 @@ function App() {
   const [workouts, setWorkouts] = useState([]);
   const [type, setType] = useState("");
   const [duration, setDuration] = useState("");
+  const [filter, setFilter] = useState(""); // new filter state
 
   const addWorkout = () => {
     if (!type || !duration) return;
@@ -22,11 +23,17 @@ function App() {
     0
   );
 
+  // Filter workouts by type
+  const filteredWorkouts = workouts.filter((w) =>
+    w.type.toLowerCase().includes(filter.toLowerCase())
+  );
+
   return (
     <div className="min-h-screen bg-gray-100 flex flex-col items-center p-6">
       <h1 className="text-3xl font-bold mb-4">Mini Fitness Tracker</h1>
 
       <div className="bg-white p-6 rounded shadow-md w-full max-w-md">
+        {/* Add Workout Inputs */}
         <div className="flex gap-2 mb-4">
           <input
             type="text"
@@ -50,8 +57,20 @@ function App() {
           </button>
         </div>
 
+        {/* Filter Input */}
+        <div className="mb-4 flex gap-2">
+          <input
+            type="text"
+            placeholder="Filter by workout type"
+            value={filter}
+            onChange={(e) => setFilter(e.target.value)}
+            className="flex-1 border p-2 rounded"
+          />
+        </div>
+
+        {/* Workout List */}
         <ul className="mb-4">
-          {workouts.map((w) => (
+          {filteredWorkouts.map((w) => (
             <li
               key={w.id}
               className="flex justify-between items-center p-2 border-b"
@@ -69,6 +88,7 @@ function App() {
           ))}
         </ul>
 
+        {/* Total Duration */}
         <div className="font-bold">Total Duration: {totalDuration} min</div>
       </div>
     </div>
