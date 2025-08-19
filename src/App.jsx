@@ -1,10 +1,15 @@
 import React, { useState } from "react";
+import {
+  PlusIcon,
+  TrashIcon,
+  MagnifyingGlassIcon,
+} from "@heroicons/react/24/solid";
 
 function App() {
   const [workouts, setWorkouts] = useState([]);
   const [type, setType] = useState("");
   const [duration, setDuration] = useState("");
-  const [filter, setFilter] = useState(""); // new filter state
+  const [filter, setFilter] = useState("");
 
   const addWorkout = () => {
     if (!type || !duration) return;
@@ -23,73 +28,88 @@ function App() {
     0
   );
 
-  // Filter workouts by type
   const filteredWorkouts = workouts.filter((w) =>
     w.type.toLowerCase().includes(filter.toLowerCase())
   );
 
   return (
-    <div className="min-h-screen bg-gray-100 flex flex-col items-center p-6">
-      <h1 className="text-3xl font-bold mb-4">Mini Fitness Tracker</h1>
+    <div className="min-h-screen bg-gray-900 flex flex-col items-center p-6 text-gray-100">
+      {/* Hero Section */}
+      <header className="w-full max-w-4xl text-center py-12">
+        <h1 className="text-5xl font-extrabold text-purple-400 mb-4">
+          Fitness Tracker
+        </h1>
+        <p className="text-lg text-gray-300">
+          Track your workouts, monitor progress, and stay motivated every day.
+        </p>
+      </header>
 
-      <div className="bg-white p-6 rounded shadow-md w-full max-w-md">
+      {/* App Container */}
+      <div className="bg-gray-800 p-6 rounded-2xl shadow-2xl w-full max-w-md">
         {/* Add Workout Inputs */}
         <div className="flex gap-2 mb-4">
-          <input
-            type="text"
-            placeholder="Workout Type"
-            value={type}
-            onChange={(e) => setType(e.target.value)}
-            className="flex-1 border p-2 rounded"
-          />
+          <div className="flex-1 relative">
+            <input
+              type="text"
+              placeholder="Workout Type"
+              value={type}
+              onChange={(e) => setType(e.target.value)}
+              className="w-full bg-gray-700 text-gray-100 border border-gray-600 p-2 pl-10 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-400"
+            />
+            <PlusIcon className="w-5 h-5 text-purple-400 absolute left-3 top-1/2 transform -translate-y-1/2" />
+          </div>
           <input
             type="number"
             placeholder="Duration (min)"
             value={duration}
             onChange={(e) => setDuration(e.target.value)}
-            className="w-32 border p-2 rounded"
+            className="w-28 bg-gray-700 text-gray-100 border border-gray-600 p-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-400"
           />
           <button
             onClick={addWorkout}
-            className="bg-blue-500 text-white px-4 rounded"
+            className="bg-purple-600 text-white px-4 rounded-lg hover:bg-purple-700 transition flex items-center gap-1"
           >
             Add
+            <PlusIcon className="w-5 h-5" />
           </button>
         </div>
 
         {/* Filter Input */}
-        <div className="mb-4 flex gap-2">
+        <div className="mb-4 relative">
           <input
             type="text"
             placeholder="Filter by workout type"
             value={filter}
             onChange={(e) => setFilter(e.target.value)}
-            className="flex-1 border p-2 rounded"
+            className="w-full bg-gray-700 text-gray-100 border border-gray-600 p-2 pl-10 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-400"
           />
+          <MagnifyingGlassIcon className="w-5 h-5 text-purple-400 absolute left-3 top-1/2 transform -translate-y-1/2" />
         </div>
 
         {/* Workout List */}
-        <ul className="mb-4">
+        <ul className="mb-4 divide-y divide-gray-700">
           {filteredWorkouts.map((w) => (
             <li
               key={w.id}
-              className="flex justify-between items-center p-2 border-b"
+              className="flex justify-between items-center py-2 hover:bg-gray-700 transition px-2 rounded-lg"
             >
-              <span>
+              <span className="text-gray-100 font-medium">
                 {w.type} - {w.duration} min
               </span>
               <button
                 onClick={() => deleteWorkout(w.id)}
-                className="text-red-500 font-bold"
+                className="text-red-500 hover:text-red-600 transition"
               >
-                X
+                <TrashIcon className="w-5 h-5" />
               </button>
             </li>
           ))}
         </ul>
 
         {/* Total Duration */}
-        <div className="font-bold">Total Duration: {totalDuration} min</div>
+        <div className="font-bold text-gray-100 text-center text-lg">
+          Total Duration: {totalDuration} min
+        </div>
       </div>
     </div>
   );
